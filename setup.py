@@ -14,7 +14,9 @@ setup(
     author="Danilo Silva",
     author_email="contact@danilocgsilva.me",
     packages=find_packages(),
-    install_requires=[],
+    install_requires=[
+        "mysql-connector-python"
+    ],
     long_description=long_description,
     classifiers=[
         "Programming Language :: Python",
