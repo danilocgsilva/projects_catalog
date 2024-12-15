@@ -27,6 +27,8 @@ class CreateProjectController extends AbstractController
         // }
 
         // return $this->render('base.html.twig');
-        return $this->render('projects/create.html.twig');
+        return $this->render('projects/create.html.twig', [
+            'form' => $form
+        ]);
     }
 }
