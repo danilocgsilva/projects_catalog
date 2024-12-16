@@ -13,10 +13,21 @@
             {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body>
-    {% block body %}
-    
-    
-    {% endblock %}
+<body class="bg-gray-100 text-gray-800">
+
+    <header class="bg-blue-600 text-white p-4">
+        {% block header %}
+        <h1>Projects Catalog</h1>
+        {% endblock %}
+    </header>
+
+    <main class="container mx-auto p-2">
+        <section class="bg-white rounded shadow p-6">
+            {% block body %}
+            {% endblock %}
+        </section>
+    </main>
+
+
 </body>
 </html>

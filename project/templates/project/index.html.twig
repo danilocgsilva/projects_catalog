@@ -3,24 +3,29 @@
 {% block title %}Project index{% endblock %}
 
 {% block body %}
+
     <h1>Project index</h1>
 
-    <table class="table">
+    <table class="min-w-full border-collapse border border-gray-300">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
+            <tr class="bg-gray-200 text-gray-700">
+                <th class="px-4 py-2 text-left font-semibold border border-gray-300">Id</th>
+                <th class="px-4 py-2 text-left font-semibold border border-gray-300">Name</th>
+                <th class="px-4 py-2 text-left font-semibold border border-gray-300">actions</th>
             </tr>
         </thead>
         <tbody>
         {% for project in projects %}
-            <tr>
+            <tr class="bg-gray-200 text-gray-700">
                 <td>{{ project.id }}</td>
                 <td>{{ project.name }}</td>
                 <td>
-                    <a href="{{ path('app_project_show', {'id': project.id}) }}">show</a>
-                    <a href="{{ path('app_project_edit', {'id': project.id}) }}">edit</a>
+                    <a 
+                        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        href="{{ path('app_project_show', {'id': project.id}) }}">show</a>
+                    <a
+                        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        href="{{ path('app_project_edit', {'id': project.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +36,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_project_new') }}">Create new</a>
+    <a 
+        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" href="{{ path('app_project_new') }}">Create new</a>
 {% endblock %}
