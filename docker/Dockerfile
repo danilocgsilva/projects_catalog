@@ -4,6 +4,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install curl git zip vim -y
 RUN apt-get install php php-mysql php-xdebug php-curl php-zip php-xml php-mbstring -y
+RUN apt-get install mariadb-client -y
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - 
