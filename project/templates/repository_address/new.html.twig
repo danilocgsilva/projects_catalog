@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New RepositoryAddress{% endblock %}
+
+{% block body %}
+    <h1>Create new RepositoryAddress</h1>
+
+    {{ include('repository_address/_form.html.twig') }}
+
+    <a href="{{ path('app_repository_address_index') }}">back to list</a>
+{% endblock %}
