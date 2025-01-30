@@ -4,8 +4,9 @@ services:
       context: .
     container_name: projects_catalog_dev
     volumes:
-      - './../project:/var/www'
+      - './../:/var/www'
       - './.ssh/:/root/.ssh'
+      - '/var/www/docker'
     ports:
       - '1536:80'
     working_dir: /var/www
