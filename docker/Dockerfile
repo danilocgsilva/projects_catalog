@@ -8,7 +8,10 @@ RUN apt-get install mariadb-client -y
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - 
-RUN apt-get install -y nodejs    
+RUN apt-get install -y nodejs
+
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 COPY config/xdebug.ini /etc/php/8.2/mods-available/
 COPY config/startup.sh /startup.sh

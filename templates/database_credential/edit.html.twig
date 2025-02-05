@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DatabaseCredential{% endblock %}
+
+{% block body %}
+    <h1>Edit DatabaseCredential</h1>
+
+    {{ include('database_credential/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_database_credential_index') }}">back to list</a>
+
+    {{ include('database_credential/_delete_form.html.twig') }}
+{% endblock %}

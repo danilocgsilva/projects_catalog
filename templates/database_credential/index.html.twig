@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DatabaseCredential index{% endblock %}
+
+{% block body %}
+    <h1>DatabaseCredential index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>DatabaseName</th>
+                <th>Port</th>
+                <th>Host</th>
+                <th>Password</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for database_credential in database_credentials %}
+            <tr>
+                <td>{{ database_credential.id }}</td>
+                <td>{{ database_credential.name }}</td>
+                <td>{{ database_credential.databaseName }}</td>
+                <td>{{ database_credential.port }}</td>
+                <td>{{ database_credential.host }}</td>
+                <td>{{ database_credential.password }}</td>
+                <td>
+                    <a href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
+                    <a href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_database_credential_new') }}">Create new</a>
+{% endblock %}
