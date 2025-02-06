@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DatabaseBackupFile{% endblock %}
+
+{% block body %}
+    <h1>Create new DatabaseBackupFile</h1>
+
+    {{ include('database_backup_file/_form.html.twig') }}
+
+    <a href="{{ path('app_database_backup_file_index') }}">back to list</a>
+{% endblock %}

@@ -29,6 +29,7 @@
                 <td>
                     <a href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
                     <a href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>
+                    <a href="{{ path('app_database_backup_file_create_database_backup') }}">backup</a>
                 </td>
             </tr>
         {% else %}
@@ -39,5 +40,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_database_credential_new') }}">Create new</a>
+    {# <a href="{{ path('app_database_credential_new') }}">Create new</a> #}
 {% endblock %}
