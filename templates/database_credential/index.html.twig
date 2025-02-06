@@ -29,13 +29,15 @@
                 <td>
                     <a href="{{ path('app_database_credential_show', {'id': database_credential_form.databaseCredential.id}) }}">show</a>
                     <a href="{{ path('app_database_credential_edit', {'id': database_credential_form.databaseCredential.id}) }}">edit</a>
-                    {# <a href="{{ path('app_database_backup_file_create_database_backup', {'database_credential_id': database_credential.id}) }}">backup</a> #}
-                    {# <form>
-                    </form> #}
-                    {# {% database_credential_form.form form '' %} #}
-                    {% form_theme database_credential_form.form with ['foundation_5_layout.html.twig'] only %}
-                    {{ form_start(database_credential_form.form) }}
-                    {{ form_end(database_credential_form.form) }}
+                    <form method="POST" action="{{ path('app_database_backup_file_create_database_backup') }}">
+                        <input type="hidden" name="database_credential_id" value="{{ database_credential_form.databaseCredential.id }}" />
+                        <input type="hidden" name="token" value="{{ csrf_token('database-backup') }}" />
+                        <input type="submit" value="salvar" />
+                    </form>
+
+                    {# {% set database_credential = database_credential_form.databaseCredential %}
+
+                    {{ include('database_credential/_delete_form.html.twig') }} #}
                 </td>
             </tr>
         {% else %}

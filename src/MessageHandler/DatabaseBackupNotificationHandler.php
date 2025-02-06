@@ -7,7 +7,6 @@ namespace App\MessageHandler;
 use DateTime;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use App\Message\DatabaseBackupNotification;
-use App\Repository\DatabaseBackupFileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\DatabaseBackupFile;
 
@@ -16,32 +15,19 @@ class DatabaseBackupNotificationHandler
 {
     private EntityManagerInterface $entityManager;
 
-    // private DatabaseBackupFileRepository $databaseBackupFileRepository;
-
-
     public function __construct(
         EntityManagerInterface $entityManager
-        // DatabaseBackupFileRepository $databaseBackupFileRepository
     ) {
         $this->entityManager = $entityManager;
-        // $this->databaseBackupFileRepository = $databaseBackupFileRepository;
     }
 
     public function __invoke(
         DatabaseBackupNotification $message
-        // DatabaseBackupFileRepository $databaseBackupFileRepository,
-        // EntityManagerInterface $entityManager
     ) {
-        // $databaseBackupFileRepository = new DatabaseBackupFileRepository();
-        // EntityManagerInterface $entityManager
-
-        // echo 'Processing message: ';
         $databaseBackupFile = new DatabaseBackupFile();
         $databaseBackupFile->setDate(new DateTime());
-        $databaseBackupFile->setFileName("arbitrary_name");
+        $databaseBackupFile->setFileName("arbitrary_name_" . $message->getContent());
         $this->entityManager->persist($databaseBackupFile);
         $this->entityManager->flush();
-
-        // echo "Agora sim: " . $message->getContent();
     }
 }

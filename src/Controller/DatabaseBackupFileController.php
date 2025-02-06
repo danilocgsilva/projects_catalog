@@ -44,10 +44,17 @@ final class DatabaseBackupFileController extends AbstractController
         return $this->redirectToRoute('app_database_backup_file_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('create/{database_credential_id}', name: 'app_database_backup_file_create_database_backup', methods: ['GET'])]
-    public function createDatabaseBackup(MessageBusInterface $bus, int $database_credential_id): Response
+    #[Route('create', name: 'app_database_backup_file_create_database_backup', methods: ['POST'])]
+    public function createDatabaseBackup(
+        MessageBusInterface $bus,
+        Request $request
+    ): Response
     {
-        $bus->dispatch(new DatabaseBackupNotification((string) $database_credential_id));
+        $submittedToken = $request->getPayload()->get('token');
+        if ($this->isCsrfTokenValid("database-backup", $submittedToken)) {
+            $database_credential_id = $request->get("database_credential_id");
+            $bus->dispatch(new DatabaseBackupNotification((string) $database_credential_id));
+        }
         return $this->redirectToRoute('app_database_backup_file_index', [], Response::HTTP_SEE_OTHER);
     }
 }
