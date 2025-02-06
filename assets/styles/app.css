@@ -9,3 +9,14 @@ body {
 .main-section {
     padding: 20px;
 }
+
+.inline-form {
+    display: inline;
+    position: relative;
+}
+
+.inline-form button {
+    position: absolute;
+    top: -9px;
+    text-decoration: underline;
+}

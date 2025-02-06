@@ -22,7 +22,7 @@
                 <td>{{ database_backup_file.date ? database_backup_file.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_database_backup_file_show', {'id': database_backup_file.id}) }}">show</a>
-                    {# <a href="{{ path('app_database_backup_file_edit', {'id': database_backup_file.id}) }}">edit</a> #}
+                    {{ include('database_backup_file/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
