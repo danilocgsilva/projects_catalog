@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+// use Symfony\Component\Form\FormRenderer;
+// use Twig\Environment;
 
 #[Route('/database/credential')]
 final class DatabaseCredentialController extends AbstractController
@@ -17,8 +20,24 @@ final class DatabaseCredentialController extends AbstractController
     #[Route(name: 'app_database_credential_index', methods: ['GET'])]
     public function index(DatabaseCredentialRepository $databaseCredentialRepository): Response
     {
+        $databaseCredentialsBackupForm = array_map(
+            function ($entry) {
+                $form = $this->createFormBuilder()
+                    ->add('submit', SubmitType::class, ['label' => 'Submit'])
+                    ->getForm();
+                // $formRenderer = $twig->getRuntime(FormRenderer::class);
+                $formView = $form->createView();
+                // $formRenderer->setTheme($formView, []);
+                return [
+                    'databaseCredential' => $entry,
+                    'form' => $formView
+                ];
+            },
+            $databaseCredentialRepository->findAll()
+        );
+
         return $this->render('database_credential/index.html.twig', [
-            'database_credentials' => $databaseCredentialRepository->findAll(),
+            'database_credentials_backup_form' => $databaseCredentialsBackupForm,
         ]);
     }
 
@@ -71,7 +90,7 @@ final class DatabaseCredentialController extends AbstractController
     #[Route('/{id}', name: 'app_database_credential_delete', methods: ['POST'])]
     public function delete(Request $request, DatabaseCredential $databaseCredential, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$databaseCredential->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $databaseCredential->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($databaseCredential);
             $entityManager->flush();
         }

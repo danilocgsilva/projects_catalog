@@ -18,18 +18,24 @@
             </tr>
         </thead>
         <tbody>
-        {% for database_credential in database_credentials %}
+        {% for database_credential_form in database_credentials_backup_form %}
             <tr>
-                <td>{{ database_credential.id }}</td>
-                <td>{{ database_credential.name }}</td>
-                <td>{{ database_credential.databaseName }}</td>
-                <td>{{ database_credential.port }}</td>
-                <td>{{ database_credential.host }}</td>
-                <td>{{ database_credential.password }}</td>
+                <td>{{ database_credential_form.databaseCredential.id }}</td>
+                <td>{{ database_credential_form.databaseCredential.name }}</td>
+                <td>{{ database_credential_form.databaseCredential.databaseName }}</td>
+                <td>{{ database_credential_form.databaseCredential.port }}</td>
+                <td>{{ database_credential_form.databaseCredential.host }}</td>
+                <td>{{ database_credential_form.databaseCredential.password }}</td>
                 <td>
-                    <a href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
-                    <a href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>
-                    <a href="{{ path('app_database_backup_file_create_database_backup') }}">backup</a>
+                    <a href="{{ path('app_database_credential_show', {'id': database_credential_form.databaseCredential.id}) }}">show</a>
+                    <a href="{{ path('app_database_credential_edit', {'id': database_credential_form.databaseCredential.id}) }}">edit</a>
+                    {# <a href="{{ path('app_database_backup_file_create_database_backup', {'database_credential_id': database_credential.id}) }}">backup</a> #}
+                    {# <form>
+                    </form> #}
+                    {# {% database_credential_form.form form '' %} #}
+                    {% form_theme database_credential_form.form with ['foundation_5_layout.html.twig'] only %}
+                    {{ form_start(database_credential_form.form) }}
+                    {{ form_end(database_credential_form.form) }}
                 </td>
             </tr>
         {% else %}
@@ -39,6 +45,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    {# <a href="{{ path('app_database_credential_new') }}">Create new</a> #}
 {% endblock %}

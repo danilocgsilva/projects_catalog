@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\DatabaseBackupFile;
-use App\Form\DatabaseBackupFileType;
 use App\Repository\DatabaseBackupFileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,10 +44,10 @@ final class DatabaseBackupFileController extends AbstractController
         return $this->redirectToRoute('app_database_backup_file_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('create', name: 'app_database_backup_file_create_database_backup', methods: ['POST'])]
-    public function createDatabaseBackup(MessageBusInterface $bus): Response
+    #[Route('create/{database_credential_id}', name: 'app_database_backup_file_create_database_backup', methods: ['GET'])]
+    public function createDatabaseBackup(MessageBusInterface $bus, int $database_credential_id): Response
     {
-        $bus->dispatch(new DatabaseBackupNotification("abc123"));
+        $bus->dispatch(new DatabaseBackupNotification((string) $database_credential_id));
         return $this->redirectToRoute('app_database_backup_file_index', [], Response::HTTP_SEE_OTHER);
     }
 }
