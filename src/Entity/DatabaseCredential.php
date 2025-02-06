@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DatabaseCredentialRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 
 #[ORM\Entity(repositoryClass: DatabaseCredentialRepository::class)]
 class DatabaseCredential
@@ -26,6 +27,7 @@ class DatabaseCredential
     private ?string $host = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Encrypted]
     private ?string $password = null;
 
     public function getId(): ?int
