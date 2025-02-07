@@ -18,3 +18,4 @@ docker/.ssh/
 ###< symfony/asset-mapper ###
 project/node_modules/
 .env.dev
+config/secrets/dev/dev.decrypt.private.php

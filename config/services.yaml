@@ -24,4 +24,4 @@ services:
     # please note that last definitions always *replace* previous ones
 
 ambta_doctrine_encrypt:
-    secret: '%env(ENCRYPTION_KEY)%'
+    secret: '%env(ENCRYPTION_SECRET)%'
