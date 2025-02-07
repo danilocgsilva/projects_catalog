@@ -10,9 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-// use Symfony\Component\Form\FormRenderer;
-// use Twig\Environment;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/database/credential')]
 final class DatabaseCredentialController extends AbstractController
@@ -20,24 +18,8 @@ final class DatabaseCredentialController extends AbstractController
     #[Route(name: 'app_database_credential_index', methods: ['GET'])]
     public function index(DatabaseCredentialRepository $databaseCredentialRepository): Response
     {
-        $databaseCredentialsBackupForm = array_map(
-            function ($entry) {
-                $form = $this->createFormBuilder()
-                    ->add('submit', SubmitType::class, ['label' => 'Submit'])
-                    ->getForm();
-                // $formRenderer = $twig->getRuntime(FormRenderer::class);
-                $formView = $form->createView();
-                // $formRenderer->setTheme($formView, []);
-                return [
-                    'databaseCredential' => $entry,
-                    'form' => $formView
-                ];
-            },
-            $databaseCredentialRepository->findAll()
-        );
-
         return $this->render('database_credential/index.html.twig', [
-            'database_credentials_backup_form' => $databaseCredentialsBackupForm,
+            'database_credentials' => $databaseCredentialRepository->findAll(),
         ]);
     }
 
@@ -96,5 +78,11 @@ final class DatabaseCredentialController extends AbstractController
         }
 
         return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/expose', name: 'app_database_credential_expose_password', methods: ['POST'])]
+    public function getPassword(DatabaseCredential $databaseCredential): JsonResponse
+    {
+        return $this->json(['senha' => '1234abcd' . $databaseCredential->getPassword()]);
     }
 }

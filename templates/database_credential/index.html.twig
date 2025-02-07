@@ -18,26 +18,25 @@
             </tr>
         </thead>
         <tbody>
-        {% for database_credential_form in database_credentials_backup_form %}
+        {% for database_credential in database_credentials %}
             <tr>
-                <td>{{ database_credential_form.databaseCredential.id }}</td>
-                <td>{{ database_credential_form.databaseCredential.name }}</td>
-                <td>{{ database_credential_form.databaseCredential.databaseName }}</td>
-                <td>{{ database_credential_form.databaseCredential.port }}</td>
-                <td>{{ database_credential_form.databaseCredential.host }}</td>
-                <td>{{ database_credential_form.databaseCredential.password }}</td>
+                <td>{{ database_credential.id }}</td>
+                <td>{{ database_credential.name }}</td>
+                <td>{{ database_credential.databaseName }}</td>
+                <td>{{ database_credential.port }}</td>
+                <td>{{ database_credential.host }}</td>
                 <td>
-                    <a href="{{ path('app_database_credential_show', {'id': database_credential_form.databaseCredential.id}) }}">show</a>
-                    <a href="{{ path('app_database_credential_edit', {'id': database_credential_form.databaseCredential.id}) }}">edit</a>
+                    {{ database_credential.password }}
+                    <a href="javascript:void(0)" data-database-credential-id="{{ database_credential.id }}">???</a>
+                </td>
+                <td>
+                    <a href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
+                    <a href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>
                     <form method="POST" action="{{ path('app_database_backup_file_create_database_backup') }}">
-                        <input type="hidden" name="database_credential_id" value="{{ database_credential_form.databaseCredential.id }}" />
+                        <input type="hidden" name="database_credential_id" value="{{ database_credential.id }}" />
                         <input type="hidden" name="token" value="{{ csrf_token('database-backup') }}" />
                         <input type="submit" value="salvar" />
                     </form>
-
-                    {# {% set database_credential = database_credential_form.databaseCredential %}
-
-                    {{ include('database_credential/_delete_form.html.twig') }} #}
                 </td>
             </tr>
         {% else %}
@@ -49,4 +48,10 @@
     </table>
 
     <a href="{{ path('app_database_credential_new') }}">Create new</a>
+{% endblock %}
+
+{% block javascripts_bottom %}
+    <script>
+        alert("Hello world just again!");
+    </script>
 {% endblock %}
