@@ -11,7 +11,7 @@ Manages your projects
 
 ## Frontend compilation
 
-This project uses the Asset Mapper and Bootstrap.
+This project uses the Asset Mapper and Bootstrap. On any change in frontend code, don't you forget to compile assets.
 
 ## Build
 

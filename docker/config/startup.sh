@@ -14,4 +14,4 @@ sed -i s/\<DNS\>/$DNS/g $ENV_FILE
 sed -i s/\<DATABASENAME\>/projects_catalog/g $ENV_FILE
 sed -i s/\<PORT\>/3306/g $ENV_FILE
 
-while : ; do sleep 1000; done
+symfony server:start --port=8002

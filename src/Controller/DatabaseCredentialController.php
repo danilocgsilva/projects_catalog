@@ -80,9 +80,15 @@ final class DatabaseCredentialController extends AbstractController
         return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/expose', name: 'app_database_credential_expose_password', methods: ['GET'])]
-    public function getPassword(DatabaseCredential $databaseCredential): JsonResponse
+    #[Route('/{id}/expose', name: 'app_database_credential_expose_password', methods: ['POST'])]
+    public function getPassword(DatabaseCredential $databaseCredential, Request $request): JsonResponse
     {
+        $csrfToken = json_decode($request->getContent())->csrfProtection ?? $this->createNotFoundException();
+        
+        if (!$this->isCsrfTokenValid('reveal-database-password', $csrfToken)) {
+            throw $this->createNotFoundException();
+        }
+
         return $this->json(['password' => $databaseCredential->getPassword()]);
     }
 }
