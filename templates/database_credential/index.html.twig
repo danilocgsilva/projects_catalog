@@ -26,8 +26,17 @@
                 <td>{{ database_credential.port }}</td>
                 <td>{{ database_credential.host }}</td>
                 <td>
-                    {{ database_credential.password }}
-                    <a href="javascript:void(0)" data-database-credential-id="{{ database_credential.id }}">???</a>
+                    <a href="javascript:void(0)" data-database-credential-id="{{ database_credential.id }}"><span id="database-password-{{ database_credential.id }}">???</span></a>
+                    <script>
+                        document.querySelector('[data-database-credential-id="{{ database_credential.id }}"]')
+                        .onclick = function() {
+                            let databaseId = this.dataset.databaseCredentialId;
+                            let urlGettingPassword = "{{ path('app_database_credential_expose_password', {id: database_credential.id}) }}";
+                            fetch(urlGettingPassword)
+                                .then( res => res.json() )
+                                .then( data => alert(data.password) );
+                        }
+                    </script>
                 </td>
                 <td>
                     <a href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
@@ -52,6 +61,5 @@
 
 {% block javascripts_bottom %}
     <script>
-        alert("Hello world just again!");
     </script>
 {% endblock %}

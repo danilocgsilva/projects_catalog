@@ -80,9 +80,9 @@ final class DatabaseCredentialController extends AbstractController
         return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/expose', name: 'app_database_credential_expose_password', methods: ['POST'])]
+    #[Route('/{id}/expose', name: 'app_database_credential_expose_password', methods: ['GET'])]
     public function getPassword(DatabaseCredential $databaseCredential): JsonResponse
     {
-        return $this->json(['senha' => '1234abcd' . $databaseCredential->getPassword()]);
+        return $this->json(['password' => $databaseCredential->getPassword()]);
     }
 }

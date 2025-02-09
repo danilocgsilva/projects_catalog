@@ -19,3 +19,4 @@ docker/.ssh/
 project/node_modules/
 .env.dev
 config/secrets/dev/dev.decrypt.private.php
+node_modules/
