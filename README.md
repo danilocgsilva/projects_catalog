@@ -11,7 +11,10 @@ Manages your projects
 
 ## Frontend compilation
 
-This project uses the Asset Mapper and Bootstrap. On any change in frontend code, don't you forget to compile assets.
+This project uses the Asset Mapper and Bootstrap. On any change in frontend code, don't you forget to compile assets. Do this with:
+```
+php bin/console asset-map:compile
+```
 
 ## Build
 

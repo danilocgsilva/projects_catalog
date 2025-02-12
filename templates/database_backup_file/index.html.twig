@@ -1,37 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}DatabaseBackupFile index{% endblock %}
+{% block title %}
+    DatabaseBackupFile index
+{% endblock %}
 
 {% block body %}
-    <h1>DatabaseBackupFile index</h1>
+    <h1>
+        DatabaseBackupFile index
+    </h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>FileName</th>
-                <th>Date</th>
-                <th>actions</th>
+                <th>
+                    Id
+                </th>
+                <th>
+                    FileName
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    actions
+                </th>
             </tr>
         </thead>
         <tbody>
-        {% for database_backup_file in database_backup_files %}
-            <tr>
-                <td>{{ database_backup_file.id }}</td>
-                <td>{{ database_backup_file.fileName }}</td>
-                <td>{{ database_backup_file.date ? database_backup_file.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_database_backup_file_show', {'id': database_backup_file.id}) }}">show</a>
-                    {{ include('database_backup_file/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for database_backup_file in database_backup_files %}
+                <tr>
+                    <td>
+                        {{ database_backup_file.id }}
+                    </td>
+                    <td>
+                        {{ database_backup_file.fileName }}
+                    </td>
+                    <td>
+                        {{ database_backup_file.date ? database_backup_file.date|date('Y-m-d H:i:s') : '' }}
+                    </td>
+                    <td style="display: flex;">
+                        <div class="action_cell">
+                            <a href="{{ path('app_database_backup_file_show', {'id': database_backup_file.id}) }}">
+                                show
+                            </a>
+                        </div>
+                        <div class="action_cell">
+                            {{ include('database_backup_file/_delete_form.html.twig') }}
+                        </div>
+                        <div class="action_cell">
+                            <form>
+                                <input
+                                    type="hidden" 
+                                    name="_token" 
+                                    value="{{ csrf_token('download_database_backup' ~ database_backup_file.id) }}"
+                                >
+                                <input class="btn" type="submit" value="Download" />
+
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">
+                        no records found
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    {# <a href="{{ path('app_database_backup_file_new') }}">Create new</a> #}
 {% endblock %}

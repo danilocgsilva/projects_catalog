@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
+
+namespace App\Controller\Web;
 
 use App\Entity\Project;
 use App\Form\ProjectType;

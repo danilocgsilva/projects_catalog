@@ -26,26 +26,24 @@ class MakeDatabaseBackupService
          */
         $databaseCredential = $this->databaseCredentialRepository->findOneBy(["id" => $databaseId]);
 
-        
+        $fileName = $this->makeDatabaseBackupFileName($databaseCredential->name);
         $shellCommand = $this->generateShellCommand(
             $databaseCredential->user,
             $databaseCredential->getPassword(),
             $databaseCredential->host,
             $databaseCredential->databaseName,
-            "../var/database_backups/" . $this->makeDatabaseBackupFileName($databaseCredential->name)
+            "../var/database_backups/" . $fileName
         );
         shell_exec($shellCommand);
 
-        $this->writeEntryDatabaseBackup($databaseId);
-        
-        $this->writeEntryDatabaseBackup($databaseId);
+        $this->writeEntryDatabaseBackup($databaseId, $fileName);
     }
 
-    private function writeEntryDatabaseBackup(int $databaseId)
+    private function writeEntryDatabaseBackup(int $databaseId, string $fileName)
     {
         $databaseBackupFile = new DatabaseBackupFile();
         $databaseBackupFile->setDate(new DateTime());
-        $databaseBackupFile->setFileName("arbitrary_name_" . $databaseId);
+        $databaseBackupFile->setFileName($fileName);
         $this->entityManager->persist($databaseBackupFile);
         $this->entityManager->flush();
     }

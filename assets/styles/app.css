@@ -10,13 +10,10 @@ body {
     padding: 20px;
 }
 
-.inline-form {
-    display: inline;
-    position: relative;
+.action_cell {
+    padding: 0 1rem;
 }
 
-.inline-form button {
-    position: absolute;
-    top: -9px;
-    text-decoration: underline;
+.action_cell button, .action_cell input {
+    padding: 0;
 }

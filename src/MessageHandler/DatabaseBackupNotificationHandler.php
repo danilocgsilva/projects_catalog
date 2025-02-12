@@ -26,13 +26,6 @@ class DatabaseBackupNotificationHandler
         DatabaseBackupNotification $message
     ) {
         $databaseId = $message->getContent();
-        // $this->databaseBackupFileRepository->findOneBy(['id' => $databaseId]);
         $this->makeDatabaseBackupService->generateDatabaseBackup((int) $databaseId);
-        
-        // $databaseBackupFile = new DatabaseBackupFile();
-        // $databaseBackupFile->setDate(new DateTime());
-        // $databaseBackupFile->setFileName("arbitrary_name_" . $databaseId);
-        // $this->entityManager->persist($databaseBackupFile);
-        // $this->entityManager->flush();
     }
 }
