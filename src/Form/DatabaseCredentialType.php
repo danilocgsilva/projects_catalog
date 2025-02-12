@@ -14,6 +14,7 @@ class DatabaseCredentialType extends AbstractType
         $builder
             ->add('name')
             ->add('databaseName')
+            ->add('user')
             ->add('port')
             ->add('host')
             ->add('password')

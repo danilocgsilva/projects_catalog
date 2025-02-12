@@ -19,3 +19,6 @@ This project uses the Asset Mapper and Bootstrap. On any change in frontend code
 composer install
 ```
 
+## Running during environment
+
+Good to know that in the Docker receipt, the script `startup.sh` is executed on the container start. The end of this script, that are a symfony script that starts a server on a port 8002.

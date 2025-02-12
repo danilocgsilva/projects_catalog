@@ -10,7 +10,8 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>DatabaseName</th>
+                <th>Database Name</th>
+                <th>Database User</th>
                 <th>Port</th>
                 <th>Host</th>
                 <th>Password</th>
@@ -23,6 +24,7 @@
                 <td>{{ database_credential.id }}</td>
                 <td>{{ database_credential.name }}</td>
                 <td>{{ database_credential.databaseName }}</td>
+                <td>{{ database_credential.user }}</td>
                 <td>{{ database_credential.port }}</td>
                 <td>{{ database_credential.host }}</td>
                 <td>
@@ -50,7 +52,7 @@
                     <form method="POST" action="{{ path('app_database_backup_file_create_database_backup') }}">
                         <input type="hidden" name="database_credential_id" value="{{ database_credential.id }}" />
                         <input type="hidden" name="token" value="{{ csrf_token('database-backup') }}" />
-                        <input type="submit" value="salvar" />
+                        <input type="submit" value="Generate backup" />
                     </form>
                 </td>
             </tr>

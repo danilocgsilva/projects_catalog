@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\DatabaseCredentialRepository;
@@ -29,6 +31,9 @@ class DatabaseCredential
     #[ORM\Column(length: 255, nullable: true)]
     #[Encrypted]
     private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $user = null;
 
     public function getId(): ?int
     {
@@ -91,6 +96,18 @@ class DatabaseCredential
     public function setPassword(?string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function setUser(string $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
