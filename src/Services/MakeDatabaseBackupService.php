@@ -26,19 +26,16 @@ class MakeDatabaseBackupService
          */
         $databaseCredential = $this->databaseCredentialRepository->findOneBy(["id" => $databaseId]);
 
+        
         $shellCommand = $this->generateShellCommand(
-            $databaseCredential->getUser(),
+            $databaseCredential->user,
             $databaseCredential->getPassword(),
-            $databaseCredential->getHost(),
-            $databaseCredential->getDatabaseName(),
-            "../var/database_backups/myFileName.sql"
+            $databaseCredential->host,
+            $databaseCredential->databaseName,
+            "../var/database_backups/" . $this->makeDatabaseBackupFileName($databaseCredential->name)
         );
-        // $output = exec("ls ../var");
-        $output = shell_exec($shellCommand);
-        // $output = [];
-        // while ($resultEntry = exec("ls ..")) {
-        //     $output[] = $resultEntry;
-        // }
+        shell_exec($shellCommand);
+
         $this->writeEntryDatabaseBackup($databaseId);
         
         $this->writeEntryDatabaseBackup($databaseId);
@@ -69,5 +66,12 @@ class MakeDatabaseBackupService
             $databaseName,
             $fileName
         );
+    }
+
+    private function makeDatabaseBackupFileName(string $databaseCredentialName): string
+    {
+        $dateTimeNow = (new DateTime())->format("U");
+        $databaseCredentialTitle = str_replace(" ", "_", $databaseCredentialName);
+        return $databaseCredentialTitle . "-" . $dateTimeNow . ".sql";
     }
 }

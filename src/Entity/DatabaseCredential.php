@@ -111,4 +111,9 @@ class DatabaseCredential
 
         return $this;
     }
+
+    public function __get($property): string
+    {
+        return $this->{$property};
+    }
 }
