@@ -48,14 +48,18 @@
                             {{ include('database_backup_file/_delete_form.html.twig') }}
                         </div>
                         <div class="action_cell">
-                            <form>
+                            <form action="{{ path('app_database_backup_download') }}" method="POST">
+                                <input 
+                                    type="hidden"
+                                    name="database_backup_id"
+                                    value="{{ database_backup_file.id }}"
+                                />
                                 <input
                                     type="hidden" 
                                     name="_token" 
                                     value="{{ csrf_token('download_database_backup' ~ database_backup_file.id) }}"
                                 >
                                 <input class="btn" type="submit" value="Download" />
-
                             </form>
                         </div>
                     </td>
