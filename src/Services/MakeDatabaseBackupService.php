@@ -32,9 +32,10 @@ class MakeDatabaseBackupService
             $databaseCredential->getPassword(),
             $databaseCredential->host,
             $databaseCredential->databaseName,
-            "../var/database_backups/" . $fileName
+            "../var/database_backups/" . $fileName,
+            (string) $databaseCredential->getPort()
         );
-        shell_exec($shellCommand);
+        $result = shell_exec($shellCommand);
 
         $this->writeEntryDatabaseBackup($databaseId, $fileName);
     }
@@ -53,16 +54,20 @@ class MakeDatabaseBackupService
         string $databasePassword,
         string $host,
         string $databaseName,
-        string $fileName
+        string $fileName,
+        string $port = "3306"
     ): string
     {
+        $baseFormat = "mysqldump%s%s%s%s%s > %s";
+        
         return sprintf(
-            "mysqldump -u%s -p%s -h%s %s > %s",
-            $databaseUser,
-            $databasePassword,
-            $host,
-            $databaseName,
-            $fileName
+            $baseFormat,
+            " -u{$databaseUser}",
+            " -p{$databasePassword}",
+            " -h{$host}",
+            " -P{$port}",
+            " {$databaseName}",
+            "{$fileName}"
         );
     }
 
