@@ -11,12 +11,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class MakeDatabaseBackupService
 {
     public function __construct(
         private DatabaseCredentialRepository $databaseCredentialRepository,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private KernelInterface $kernel
     ) {}
     
     public function generateDatabaseBackup(int $databaseId)
@@ -32,7 +34,7 @@ class MakeDatabaseBackupService
             $databaseCredential->getPassword(),
             $databaseCredential->host,
             $databaseCredential->databaseName,
-            "../var/database_backups/" . $fileName,
+            $this->kernel->getProjectDir() . "/var/database_backups/" . $fileName,
             (string) $databaseCredential->getPort()
         );
         $result = shell_exec($shellCommand);
