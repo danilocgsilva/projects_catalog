@@ -1,4 +1,4 @@
-{# {{ form_start(form) }} #}
+{{ form_start(form) }}
 
     {{ form_row(form.name) }}
     {{ form_row(form.databaseName) }}
@@ -6,6 +6,19 @@
     {{ form_row(form.port) }}
     {{ form_row(form.host) }}
     {{ form_row(form.password) }}
-    {# {{ form_widget(form) }} #}
-    {# <button class="btn">{{ button_label|default('Save') }}</button> #}
-{# {{ form_end(form) }} #}
+    <input type="hidden" name="test" id="test" value="0">
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button type="button" class="btn" id="testBtn" name="testBtn">Test</button>
+{{ form_end(form) }}
+
+<script>
+
+let testButton = document.getElementById("testBtn");
+testButton.addEventListener("click", function() {
+    document.getElementById("test").value = "1";
+    let form = document.getElementsByName("database_credential")[0];
+    form.submit();
+});
+
+</script>
+

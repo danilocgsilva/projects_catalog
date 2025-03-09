@@ -112,7 +112,7 @@ class DatabaseCredential
         return $this;
     }
 
-    public function __get($property): string
+    public function __get($property): mixed
     {
         return $this->{$property};
     }

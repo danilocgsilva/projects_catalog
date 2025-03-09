@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Services\FillDatabaseCredentialWithFormData;
+use App\Services\TestDatabase;
 
 #[Route('/database/credential')]
 final class DatabaseCredentialController extends AbstractController
@@ -26,18 +29,49 @@ final class DatabaseCredentialController extends AbstractController
     }
 
     #[Route('/new', name: 'app_database_credential_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(
+        Request $request, 
+        EntityManagerInterface 
+        $entityManager, 
+        SessionInterface $session
+    ): Response
     {
         $databaseCredential = new DatabaseCredential();
+        
+        $formData = $session->get('form_data', []);
+        if (!empty($formData)) {
+            FillDatabaseCredentialWithFormData::fill(
+                $formData,
+                $databaseCredential
+            );
+        }
+
         $form = $this->createForm(DatabaseCredentialType::class, $databaseCredential);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($databaseCredential);
-            $entityManager->flush();
+            if ($request->get("test") === "1") {
+                $session->set('form_data', $form->getData());
 
-            return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);
+                $testResult = TestDatabase::test(
+                    $form->getData()
+                );
+
+                if ($testResult) {
+                    $this->addFlash('test_result_worked', "Credentials worked!");
+                } else {
+                    $this->addFlash('test_result_not_worked', "Credentials did not work!");
+                }
+
+                return $this->redirectToRoute('app_database_credential_new', [], Response::HTTP_SEE_OTHER);
+            } elseif ($request->get("test") === "0") {
+                $entityManager->persist($databaseCredential);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
+
+        $session->remove('form_data');
 
         return $this->render('database_credential/new.html.twig', [
             'database_credential' => $databaseCredential,

@@ -1,11 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New DatabaseCredential{% endblock %}
+{% block title %}
+    New DatabaseCredential
+{% endblock %}
 
 {% block body %}
-    <h1>Create new DatabaseCredential</h1>
+    <h1>
+        Create new DatabaseCredential
+    </h1>
+
+    {% for msg in app.session.flashBag.get('test_result_worked') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('test_result_not_worked') %}
+        <div class="alert alert-danger">
+            {{ msg }}
+        </div>
+    {% endfor %}
 
     {{ include('database_credential/_form.html.twig') }}
 
-    <a href="{{ path('app_database_credential_index') }}">back to list</a>
+    <a href="{{ path('app_database_credential_index') }}">
+        back to list
+    </a>
 {% endblock %}
