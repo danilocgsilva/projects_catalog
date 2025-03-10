@@ -6,18 +6,19 @@ services:
     volumes:
       - './../:/var/www'
       - './.ssh/:/root/.ssh'
+      - './var/database_backups/:/var/www/html/var/database_backups/'
       - '/var/www/docker'
-    # ports:
+    ports:
     #   - '1536:80'
     #   - '9912:9912'
-    #   - '8000:8000'
-    network_mode: host
+      - '8002:8002'
+    # network_mode: host
     working_dir: /var/www
   projects_catalog_dev_db:
     image: 'mysql:latest'
     container_name: projects_catalog_dev_db
     environment:
       - MYSQL_ROOT_PASSWORD=projectscatalogstrongpassword
-    # ports:
-    #   - '3436:3306'
-    network_mode: host
+    ports:
+      - '3436:3306'
+    # network_mode: host

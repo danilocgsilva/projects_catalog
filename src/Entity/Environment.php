@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\EnvironmentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EnvironmentRepository::class)]
@@ -20,6 +22,17 @@ class Environment
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
+
+    /**
+     * @var Collection<int, DatabaseCredential>
+     */
+    #[ORM\OneToMany(targetEntity: DatabaseCredential::class, mappedBy: 'environment')]
+    private Collection $databaseCredentials;
+
+    public function __construct()
+    {
+        $this->databaseCredentials = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,6 +59,36 @@ class Environment
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DatabaseCredential>
+     */
+    public function getDatabaseCredentials(): Collection
+    {
+        return $this->databaseCredentials;
+    }
+
+    public function addDatabaseCredential(DatabaseCredential $databaseCredential): static
+    {
+        if (!$this->databaseCredentials->contains($databaseCredential)) {
+            $this->databaseCredentials->add($databaseCredential);
+            $databaseCredential->setEnvironment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDatabaseCredential(DatabaseCredential $databaseCredential): static
+    {
+        if ($this->databaseCredentials->removeElement($databaseCredential)) {
+            // set the owning side to null (unless already changed)
+            if ($databaseCredential->getEnvironment() === $this) {
+                $databaseCredential->setEnvironment(null);
+            }
+        }
 
         return $this;
     }

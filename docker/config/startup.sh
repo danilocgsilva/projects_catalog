@@ -14,6 +14,8 @@ sed -i s/\<DNS\>/$DNS/g $ENV_FILE
 sed -i s/\<DATABASENAME\>/projects_catalog/g $ENV_FILE
 sed -i s/\<PORT\>/3306/g $ENV_FILE
 
-symfony server:start --port=8002
+# symfony server:start --port=8002
+
+symfony server:start --port=8002 --allow-all-ip
 
 # while : ; do sleep 1000; done

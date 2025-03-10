@@ -35,6 +35,9 @@ class DatabaseCredential
     #[ORM\Column(length: 255)]
     private ?string $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'databaseCredentials')]
+    private ?Environment $environment = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -115,5 +118,17 @@ class DatabaseCredential
     public function __get($property): mixed
     {
         return $this->{$property};
+    }
+
+    public function getEnvironment(): ?Environment
+    {
+        return $this->environment;
+    }
+
+    public function setEnvironment(?Environment $environment): static
+    {
+        $this->environment = $environment;
+
+        return $this;
     }
 }
