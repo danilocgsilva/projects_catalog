@@ -6,6 +6,8 @@ use App\Entity\DatabaseCredential;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Environment;
 
 class DatabaseCredentialType extends AbstractType
 {
@@ -18,7 +20,14 @@ class DatabaseCredentialType extends AbstractType
             ->add('port')
             ->add('host')
             ->add('password')
+            ->add('environment', EntityType::class, [
+                'class' => Environment::class,
+                'choice_label' => 'name',
+                'placeholder' => '-- None --',
+                'required' => false
+            ])
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

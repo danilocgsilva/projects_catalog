@@ -15,6 +15,7 @@
                 <th>Port</th>
                 <th>Host</th>
                 <th>Password</th>
+                <th>Environment</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -46,6 +47,15 @@
                         }
                     </script>
                 </td>
+
+
+
+                <td>
+                {{ database_credential.environment.id ?? "not set" }}
+                </td>
+
+
+
                 <td>
                     <a href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
                     <a href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>

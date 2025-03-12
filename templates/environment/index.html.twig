@@ -21,8 +21,8 @@
                 <td>{{ environment.name }}</td>
                 <td>{{ environment.description }}</td>
                 <td>
-                    <a href="{{ path('app_environment_show', {'id': environment.id}) }}">show</a>
-                    <a href="{{ path('app_environment_edit', {'id': environment.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('app_environment_show', {'id': environment.id}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_environment_edit', {'id': environment.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
