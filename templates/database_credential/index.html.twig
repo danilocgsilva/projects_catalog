@@ -48,21 +48,21 @@
                     </script>
                 </td>
 
-
-
                 <td>
-                {{ database_credential.environment.id ?? "not set" }}
+                {% if database_credential.environment %}
+                    <a href="{{ path('app_environment_show', {'id': database_credential.environment.id }) }}">{{ database_credential.environment.name }}</a>
+                {% else %}
+                    not set
+                {% endif %}
                 </td>
 
-
-
-                <td>
-                    <a href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
-                    <a href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>
-                    <form method="POST" action="{{ path('app_database_backup_file_create_database_backup') }}">
+                <td style="white-space: nowrap">
+                    <a class="btn btn-primary" href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>
+                    <form style="display: inline-block" method="POST" action="{{ path('app_database_backup_file_create_database_backup') }}">
                         <input type="hidden" name="database_credential_id" value="{{ database_credential.id }}" />
                         <input type="hidden" name="token" value="{{ csrf_token('database-backup') }}" />
-                        <input type="submit" value="Generate backup" />
+                        <input class="btn btn-primary" type="submit" value="Generate backup" />
                     </form>
                 </td>
             </tr>
