@@ -1,4 +1,4 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'id': 'submit-new-project'}}) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+<input form="submit-new-project" class="btn btn-danger" type="submit" value="{{ button_label|default('Save') }}" />

@@ -71,6 +71,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "compile-front": [
+            "php bin/console asset-map:compile"
         ]
     },
     "conflict": {

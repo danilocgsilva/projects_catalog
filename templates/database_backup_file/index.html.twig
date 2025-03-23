@@ -38,16 +38,19 @@
                     <td>
                         {{ database_backup_file.date ? database_backup_file.date|date('Y-m-d H:i:s') : '' }}
                     </td>
-                    <td style="display: flex;">
-                        <div class="action_cell">
-                            <a href="{{ path('app_database_backup_file_show', {'id': database_backup_file.id}) }}">
+                    <td>
+
+                        <div class="d-inline-block">
+                            <a class="btn btn-primary" href="{{ path('app_database_backup_file_show', {'id': database_backup_file.id}) }}">
                                 show
                             </a>
                         </div>
-                        <div class="action_cell">
+
+                        <div class="d-inline-block">
                             {{ include('database_backup_file/_delete_form.html.twig') }}
                         </div>
-                        <div class="action_cell">
+
+                        <div class="d-inline-block">
                             <form action="{{ path('app_database_backup_download') }}" method="POST">
                                 <input 
                                     type="hidden"
@@ -59,9 +62,10 @@
                                     name="_token" 
                                     value="{{ csrf_token('download_database_backup' ~ database_backup_file.id) }}"
                                 >
-                                <input class="btn" type="submit" value="Download" />
+                                <input class="btn btn-primary" type="submit" value="Download" />
                             </form>
                         </div>
+
                     </td>
                 </tr>
             {% else %}

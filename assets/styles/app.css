@@ -10,10 +10,6 @@ body {
     padding: 20px;
 }
 
-.action_cell {
-    padding: 0 1rem;
-}
-
-.action_cell button, .action_cell input {
-    padding: 0;
+table td {
+    vertical-align: middle;
 }

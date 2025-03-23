@@ -15,6 +15,7 @@ This project uses the Asset Mapper and Bootstrap. On any change in frontend code
 ```
 php bin/console asset-map:compile
 ```
+There's a script in the `composer.json` to do this task: `compile-front`.
 
 ## Build
 
