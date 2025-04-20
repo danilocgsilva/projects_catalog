@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use DatabaseBackupFileFileSystemInterface;
 use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,7 +17,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 final class DatabaseBackupFileController extends AbstractController
 {
     #[Route('/download', name: 'app_database_backup_download', methods: ['POST'])]
-    public function download(Request $request, DatabaseBackupFileRepository $databaseBackupFileRepository): BinaryFileResponse|RedirectResponse
+    public function download(
+        Request $request, 
+        DatabaseBackupFileRepository $databaseBackupFileRepository,
+        DatabaseBackupFileFileSystemInterface $dbfs
+    ): BinaryFileResponse|RedirectResponse
     {
         $csrfToken = $request->get("_token");
         $databaseBackupId = $request->get("database_backup_id");
@@ -26,9 +31,10 @@ final class DatabaseBackupFileController extends AbstractController
 
         /** @var \App\Entity\DatabaseBackupFile */
         $databaseBackup = $databaseBackupFileRepository->findOneBy(["id" => (int) $databaseBackupId]);
-        $databaseFilePath = "../var/database_backups/" . $databaseBackup->getFileName();
-        if (file_exists($databaseFilePath)) {
-            return $this->file($databaseFilePath);
+        $databaseBackupFileName = $databaseBackup->getFileName();
+        // $databaseFilePath = "../var/database_backups/" . $databaseBackup->getFileName();
+        if ($dbfs->exists($databaseBackupFileName)) {
+            return $this->file($dbfs->getFileSystemAddressPath($databaseBackupFileName));
         }
         return $this->redirectWithErrorMessage();
     }
