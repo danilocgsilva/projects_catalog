@@ -20,3 +20,13 @@ project/node_modules/
 .env.dev
 config/secrets/dev/dev.decrypt.private.php
 node_modules/
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
