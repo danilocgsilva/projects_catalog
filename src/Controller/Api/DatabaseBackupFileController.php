@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use DatabaseBackupFileFileSystemInterface;
-use ErrorException;
+use App\Services\DatabaseBackupFileFileSystemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +31,6 @@ final class DatabaseBackupFileController extends AbstractController
         /** @var \App\Entity\DatabaseBackupFile */
         $databaseBackup = $databaseBackupFileRepository->findOneBy(["id" => (int) $databaseBackupId]);
         $databaseBackupFileName = $databaseBackup->getFileName();
-        // $databaseFilePath = "../var/database_backups/" . $databaseBackup->getFileName();
         if ($dbfs->exists($databaseBackupFileName)) {
             return $this->file($dbfs->getFileSystemAddressPath($databaseBackupFileName));
         }

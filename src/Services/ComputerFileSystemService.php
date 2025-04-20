@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Services;
+
 class ComputerFileSystemService implements DatabaseBackupFileFileSystemInterface
 {
-    private const BASE_PATH = __DIR__ . "../../var/database_backups/";
+    private const BASE_PATH = __DIR__ . "/../../var/database_backups/";
     
     public function exists(string $path): bool
     {
