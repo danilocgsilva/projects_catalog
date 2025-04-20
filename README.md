@@ -29,7 +29,9 @@ Good to know that in the Docker receipt, the script `startup.sh` is executed on 
 
 ## WARNING about data encryption
 
-The application holds information from password for database (an pontentially other sets of data as well in the future). It is important no know that this information is encrypted in the database, and that the package responsible for this is the `doctrineencryptbundle/doctrine-encrypt-bundle`. Note that if the application needs to work in different environments, special care must be taken on this subject. May you should decrypt the table fields before transfering data between environments (the package documentation gives enough information on this), or may need to manage the encryption key accprdingly.
+The application holds information from password for database (an pontentially other sets of data as well in the future). It is important no know that this information is encrypted in the database, and that the package responsible for this is the `doctrineencryptbundle/doctrine-encrypt-bundle`. Note that if the application needs to work in different environments, special care must be taken on this subject. May you should decrypt the table fields before transfering data between environments (the package documentation gives enough information on this), or may need to manage the encryption key accordingly.
+
+By default, the configurations for this package is in `config/services.yaml`, in the key `ambta_doctrine_encrypt`.
 
 ## The feature to make a database backup
 
