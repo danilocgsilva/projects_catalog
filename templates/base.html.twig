@@ -20,9 +20,17 @@
 <body class="">
 
     <header class="bg-blue-600 text-white p-4">
-        <h1 class="text-lg">Projects Catalog</h1>
-        <h1 class="text-2xl">Projects Catalog</h1>
         {% include 'menu.html.twig' %}
+        {% for msg in app.session.flashBag.get('success') %}
+            <div class="alert alert-success">
+                {{ msg }}
+            </div>    
+        {% endfor %}
+        {% for msg in app.session.flashBag.get('error') %}
+            <div class="alert alert-danger">
+                {{ msg }}
+            </div>    
+        {% endfor %}
     </header>
 
     <main class="container mx-auto p-2">
