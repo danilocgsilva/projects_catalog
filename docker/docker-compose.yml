@@ -21,4 +21,10 @@ services:
       - MYSQL_ROOT_PASSWORD=projectscatalogstrongpassword
     ports:
       - '3436:3306'
+    volumes:
+      - my-datavolume:/var/lib/mysql
+volumes:
+  my-datavolume:
+
+
     # network_mode: host

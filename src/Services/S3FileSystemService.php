@@ -23,4 +23,9 @@ class S3FileSystemService implements DatabaseBackupFileFileSystemInterface
     {
         return self::BASE_PATH . $path;
     }
+
+    public function write(string $path, string $content): void
+    {
+        
+    }
 }
