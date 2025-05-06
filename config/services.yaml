@@ -33,6 +33,11 @@ services:
     App\Services\S3FileSystemService:
         autowire: true
         autoconfigure: true
+        public: true
+        arguments:
+            $s3ClientId: '%env(S3_CLIENT_ID)%'
+            $s3ClientSecret: '%env(S3_CLIENT_SECRET)%'
+            $s3BucketName: '%env(S3_BUCKET_NAME)%'
 
     App\Services\FileSystemFactory:
         arguments:

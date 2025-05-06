@@ -12,29 +12,32 @@ return function (array $context) {
     $kernel->boot();
     $container = $kernel->getContainer();
     
-    $awsClientId = $container->getParameter('s3_client_id');
-    $awsClientSecret = $container->getParameter('s3_client_secret');
+    // $awsClientId = $container->getParameter('s3_client_id');
+    // $awsClientSecret = $container->getParameter('s3_client_secret');
 
-    $s3Client = new S3Client([
-        'region' => 'us-east-1',
-        'version' => '2006-03-01',
-        'credentials' => [
-            'key'    => $awsClientId,
-            'secret' => $awsClientSecret
-        ]
-    ]);
+    // $s3Client = new S3Client([
+    //     'region' => 'us-east-1',
+    //     'version' => '2006-03-01',
+    //     'credentials' => [
+    //         'key'    => $awsClientId,
+    //         'secret' => $awsClientSecret
+    //     ]
+    // ]);
     
-    /**
-     * @var \Aws\Result
-     */
-    $listedObjectResponse = $s3Client->listObjectsV2([
-        'Bucket' => "projects-catalog",
-    ]);
-    foreach ($listedObjectResponse['Contents'] as $entryInRoot) {
-        print($entryInRoot['Key'] . "<br />");
-    }
+    // /**
+    //  * @var \Aws\Result
+    //  */
+    // $listedObjectResponse = $s3Client->listObjectsV2([
+    //     'Bucket' => "projects-catalog",
+    // ]);
+    // foreach ($listedObjectResponse['Contents'] as $entryInRoot) {
+    //     print($entryInRoot['Key'] . "<br />");
+    // }
     
-    print("Hello world!" . "<br />");
+    // print("Hello world!" . "<br />");
+
+    $s3FileSystemService = $container->get('App\Services\S3FileSystemService');
+    $s3FileSystemService->write("test.txt", "Hello world!");
 };
 
 
