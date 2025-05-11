@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Services\DatabaseBackupFileFileSystemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\DatabaseBackupFileRepository;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Services\DatabaseBackupFiles\{
+    BringToLocal,
+    ComputerFileSystemService,
+    DatabaseBackupFileFileSystemInterface
+};
 
 #[Route('/database/backup/file')]
 final class DatabaseBackupFileController extends AbstractController
@@ -19,7 +23,8 @@ final class DatabaseBackupFileController extends AbstractController
     public function download(
         Request $request, 
         DatabaseBackupFileRepository $databaseBackupFileRepository,
-        DatabaseBackupFileFileSystemInterface $dbfs
+        DatabaseBackupFileFileSystemInterface $dbfs,
+        BringToLocal $bringToLocal
     ): BinaryFileResponse|RedirectResponse
     {
         $csrfToken = $request->get("_token");
@@ -32,7 +37,7 @@ final class DatabaseBackupFileController extends AbstractController
         $databaseBackup = $databaseBackupFileRepository->findOneBy(["id" => (int) $databaseBackupId]);
         $databaseBackupFileName = $databaseBackup->getFileName();
         if ($dbfs->exists($databaseBackupFileName)) {
-            return $this->file($dbfs->getFileSystemAddressPath($databaseBackupFileName));
+            return $this->downloadFile($databaseBackupFileName, $bringToLocal, $dbfs);
         }
         return $this->redirectWithErrorMessage();
     }
@@ -41,5 +46,19 @@ final class DatabaseBackupFileController extends AbstractController
     {
         $this->addFlash('error', 'Sorry! I could not attend to yout request!');
         return $this->redirectToRoute('app_database_backup_file_index');
+    }
+
+    private function downloadFile(
+        string $fileName, 
+        BringToLocal $bringToLocal, 
+        DatabaseBackupFileFileSystemInterface $dbfs
+    ): BinaryFileResponse
+    {
+        if ($dbfs instanceof ComputerFileSystemService) {
+            return $this->file($dbfs->getFileSystemAddressPath($fileName));
+        } else {
+            $bringToLocal->toLocal($fileName);
+            return $this->file($bringToLocal->getLocalPath());
+        }
     }
 }

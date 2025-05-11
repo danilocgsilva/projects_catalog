@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Message\DatabaseBackupNotification;
-use App\Services\DatabaseBackupService;
+use App\Services\DatabaseBackupFiles\DatabaseBackupService;
 
 #[Route('/database/backup/file')]
 final class DatabaseBackupFileController extends AbstractController

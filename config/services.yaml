@@ -32,7 +32,15 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Services\S3FileSystemService:
+    App\Services\DatabaseBackupFiles\BringToLocal:
+        autowire: true
+        autoconfigure: true
+        public: true
+        arguments:
+            $s3FileSystemService: '@App\Services\DatabaseBackupFiles\S3FileSystemService'
+            $computerFileSystemService: '@App\Services\DatabaseBackupFiles\ComputerFileSystemService'
+
+    App\Services\DatabaseBackupFiles\S3FileSystemService:
         autowire: true
         autoconfigure: true
         public: true
@@ -41,15 +49,15 @@ services:
             $s3ClientSecret: '%env(S3_CLIENT_SECRET)%'
             $s3BucketName: '%env(S3_BUCKET_NAME)%'
 
-    App\Services\FileSystemFactory:
+    App\Services\DatabaseBackupFiles\FileSystemFactory:
         arguments:
             $filesystemHandler: '%env(FILESYSTEM_HANDLER)%'
             $container: '@service_container'
 
-    App\Services\DatabaseBackupFileFileSystemInterface:
-        factory: ['@App\Services\FileSystemFactory', 'get']
+    App\Services\DatabaseBackupFiles\DatabaseBackupFileFileSystemInterface:
+        factory: ['@App\Services\DatabaseBackupFiles\FileSystemFactory', 'get']
     
-    App\Services\DatabaseBackupService:
+    App\Services\DatabaseBackupFiles\DatabaseBackupService:
         arguments:
             $databaseCredentialRepository: '@App\Repository\DatabaseCredentialRepository'
             $entityManager: '@Doctrine\ORM\EntityManagerInterface'

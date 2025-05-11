@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\DatabaseBackupFiles;
 
-use App\Services\ComputerFileSystemService;
-use App\Services\S3FileSystemService;
+use App\Services\DatabaseBackupFiles\ComputerFileSystemService;
+use App\Services\DatabaseBackupFiles\S3FileSystemService;
 use InvalidArgumentException;
-use App\Services\DatabaseBackupFileFileSystemInterface;
+use App\Services\DatabaseBackupFiles\DatabaseBackupFileFileSystemInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

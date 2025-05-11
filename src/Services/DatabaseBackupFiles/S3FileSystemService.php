@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\DatabaseBackupFiles;
 
 use Aws\S3\S3Client;
 
@@ -60,5 +60,15 @@ class S3FileSystemService implements DatabaseBackupFileFileSystemInterface
             'Bucket' => $this->s3BucketName,
             'Key'    => self::ADDRESS . '/' . $path
         ]);
+    }
+
+    public function getFileContent(string $path): string
+    {
+        $result = $this->s3Client->getObject([
+            'Bucket' => $this->s3BucketName,
+            'Key'    => self::ADDRESS . '/' . $path
+        ]);
+
+        return (string) $result['Body'];
     }
 }

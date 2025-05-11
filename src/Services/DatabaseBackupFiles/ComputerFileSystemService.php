@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\DatabaseBackupFiles;
 
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -22,5 +22,15 @@ class ComputerFileSystemService implements DatabaseBackupFileFileSystemInterface
     public function getFileSystemAddressPath(string $path): string
     {
         return self::BASE_PATH . $path;
+    }
+
+    public function write(string $fileName, string $content): void
+    {
+        $this->fs->dumpFile($this->getFileSystemAddressPath($fileName), $content);
+    }
+
+    public function getFileContent(string $path): string
+    {
+        return file_get_contents($this->getFileSystemAddressPath($path));
     }
 }

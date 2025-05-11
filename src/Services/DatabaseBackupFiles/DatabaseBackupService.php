@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\DatabaseBackupFiles;
 
 use App\Repository\DatabaseCredentialRepository;
 use App\Entity\DatabaseBackupFile;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use App\Services\S3FileSystemService;
+use App\Services\DatabaseBackupFiles\S3FileSystemService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 

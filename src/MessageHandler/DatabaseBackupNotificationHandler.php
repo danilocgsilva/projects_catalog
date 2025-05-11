@@ -8,7 +8,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use App\Message\DatabaseBackupNotification;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\DatabaseBackupFileRepository;
-use App\Services\DatabaseBackupService;
+use App\Services\DatabaseBackupFiles\DatabaseBackupService;
 
 #[AsMessageHandler]
 class DatabaseBackupNotificationHandler
