@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Message\DatabaseBackupNotification;
+use App\Services\DatabaseBackupService;
 
 #[Route('/database/backup/file')]
 final class DatabaseBackupFileController extends AbstractController
@@ -34,11 +35,19 @@ final class DatabaseBackupFileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_database_backup_file_delete', methods: ['POST'])]
-    public function delete(Request $request, DatabaseBackupFile $databaseBackupFile, EntityManagerInterface $entityManager): Response
+    public function delete(
+        Request $request, 
+        DatabaseBackupFile $databaseBackupFile, 
+        EntityManagerInterface $entityManager,
+        DatabaseBackupService $databaseBackupService
+    ): Response
     {
         if ($this->isCsrfTokenValid('delete'.$databaseBackupFile->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($databaseBackupFile);
             $entityManager->flush();
+            $databaseBackupService->deleteDatabaseBackupFile(
+                $databaseBackupFile->getFileName()
+            );
         }
 
         return $this->redirectToRoute('app_database_backup_file_index', [], Response::HTTP_SEE_OTHER);

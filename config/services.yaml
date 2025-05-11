@@ -45,7 +45,14 @@ services:
 
     App\Services\DatabaseBackupFileFileSystemInterface:
         factory: ['@App\Services\FileSystemFactory', 'get']
-
+    
+    App\Services\DatabaseBackupService:
+        arguments:
+            $databaseCredentialRepository: '@App\Repository\DatabaseCredentialRepository'
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $kernel: '@Symfony\Component\HttpKernel\KernelInterface'
+            $parameterBag: '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface'
+            $localFilesystem: '@Symfony\Component\Filesystem\Filesystem'
 
 ambta_doctrine_encrypt:
     secret: '%env(ENCRYPTION_SECRET)%'

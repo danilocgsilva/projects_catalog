@@ -53,4 +53,12 @@ class S3FileSystemService implements DatabaseBackupFileFileSystemInterface
             'Body'   => $content
         ]);
     }
+
+    public function delete(string $path): void
+    {
+        $this->s3Client->deleteObject([
+            'Bucket' => $this->s3BucketName,
+            'Key'    => self::ADDRESS . '/' . $path
+        ]);
+    }
 }

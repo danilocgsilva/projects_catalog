@@ -13,7 +13,7 @@ use App\Services\S3FileSystemService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class MakeDatabaseBackupService
+class DatabaseBackupService
 {
     private $projectDir;
 
@@ -55,6 +55,19 @@ class MakeDatabaseBackupService
             $this->container
                 ->get(S3FileSystemService::class)
                 ->write($fileName, $backupScriptContent);
+        }
+    }
+
+    public function deleteDatabaseBackupFile(string $fileName): void
+    {
+        $filePath = $this->projectDir . "/var/database_backups/" . $fileName;
+        if ($this->localFilesystem->exists($filePath)) {
+            $this->localFilesystem->remove($filePath);
+        }
+        if ($this->parameterBag->get("filesystem_handler") === "s3") {
+            $this->container
+                ->get(S3FileSystemService::class)
+                ->delete($fileName);
         }
     }
 

@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
-use DateTime;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use App\Message\DatabaseBackupNotification;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\DatabaseBackupFile;
 use App\Repository\DatabaseBackupFileRepository;
-use App\Services\MakeDatabaseBackupService;
+use App\Services\DatabaseBackupService;
 
 #[AsMessageHandler]
 class DatabaseBackupNotificationHandler
@@ -18,7 +16,7 @@ class DatabaseBackupNotificationHandler
     public function __construct(
         private EntityManagerInterface $entityManager,
         private DatabaseBackupFileRepository $databaseBackupFileRepository,
-        private MakeDatabaseBackupService $makeDatabaseBackupService
+        private DatabaseBackupService $databaseBackupService
     ) {
     }
 
@@ -26,6 +24,6 @@ class DatabaseBackupNotificationHandler
         DatabaseBackupNotification $message
     ) {
         $databaseId = $message->getContent();
-        $this->makeDatabaseBackupService->generateDatabaseBackup((int) $databaseId);
+        $this->databaseBackupService->generateDatabaseBackup((int) $databaseId);
     }
 }
