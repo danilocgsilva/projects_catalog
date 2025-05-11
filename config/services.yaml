@@ -23,6 +23,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
@@ -42,6 +44,7 @@ services:
     App\Services\FileSystemFactory:
         arguments:
             $filesystemHandler: '%env(FILESYSTEM_HANDLER)%'
+            $container: '@service_container'
 
     App\Services\DatabaseBackupFileFileSystemInterface:
         factory: ['@App\Services\FileSystemFactory', 'get']
