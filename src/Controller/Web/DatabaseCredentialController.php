@@ -53,11 +53,9 @@ final class DatabaseCredentialController extends AbstractController
             if ($request->get("test") === "1") {
                 $session->set('form_data', $form->getData());
 
-                $testResult = TestDatabase::test(
-                    $form->getData()
-                );
-
-                if ($testResult) {
+                if (
+                    TestDatabase::test($form->getData())
+                ) {
                     $this->addFlash('test_result_worked', "Credentials worked!");
                 } else {
                     $this->addFlash('test_result_not_worked', "Credentials did not work!");
