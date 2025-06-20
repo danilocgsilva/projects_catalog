@@ -14,17 +14,19 @@ services:
       - '8002:8002'
     # network_mode: host
     working_dir: /var/www
+    depends_on:
+      - projects_catalog_dev_db
   projects_catalog_dev_db:
     image: 'mysql:latest'
     container_name: projects_catalog_dev_db
     environment:
       - MYSQL_ROOT_PASSWORD=projectscatalogstrongpassword
+      - HOST_IP=host.docker.internal
     ports:
       - '3436:3306'
     volumes:
       - my-datavolume:/var/lib/mysql
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 volumes:
   my-datavolume:
-
-
-    # network_mode: host

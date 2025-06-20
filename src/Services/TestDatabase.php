@@ -19,8 +19,9 @@ class TestDatabase
         }
         
         try {
+            $dns = "mysql:host=" . $databaseCredential->getHost() . ";dbname=" . $databaseCredential->getDatabaseName();
             new PDO(
-                "mysql:host=" . $databaseCredential->getHost() . ";dbname=" . $databaseCredential->getDatabaseName(),
+                $dns,
                 $databaseCredential->getUser(),
                 $databaseCredential->getPassword(),
                 [

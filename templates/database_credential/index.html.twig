@@ -64,6 +64,7 @@
                         <input type="hidden" name="token" value="{{ csrf_token('database-backup') }}" />
                         <input class="btn btn-primary" type="submit" value="Generate backup" />
                     </form>
+                    <a class="btn btn-primary" href="#">List backups files</a>
                 </td>
             </tr>
         {% else %}

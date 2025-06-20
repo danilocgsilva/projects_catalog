@@ -62,6 +62,9 @@
         "symfony/polyfill-php82": "*"
     },
     "scripts": {
+        "start-dev-server": [
+            "symfony server:start --no-tls --allow-http --allow-all-ip --port=8002"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
