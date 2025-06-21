@@ -86,15 +86,33 @@ final class DatabaseCredentialController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_database_credential_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, DatabaseCredential $databaseCredential, EntityManagerInterface $entityManager): Response
+    public function edit(
+        Request $request, 
+        DatabaseCredential $databaseCredential, 
+        EntityManagerInterface $entityManager,
+        SessionInterface $session
+    ): Response
     {
         $form = $this->createForm(DatabaseCredentialType::class, $databaseCredential);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            if ($request->get("test") === "1") {
+                $session->set('form_data', $form->getData());
 
-            return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);
+                if (
+                    TestDatabase::test($form->getData())
+                ) {
+                    $this->addFlash('success', "Credentials worked!");
+                } else {
+                    $this->addFlash('error', "Credentials did not work!");
+                }
+
+                return $this->redirectToRoute('app_database_credential_edit', ["id" => $databaseCredential->id], Response::HTTP_SEE_OTHER);
+            } elseif ($request->get("test") === "0") {
+                $entityManager->flush();
+                return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('database_credential/edit.html.twig', [
