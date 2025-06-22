@@ -70,7 +70,8 @@ final class DatabaseBackupFileController extends AbstractController
             $databaseCredential = $databaseCredentialRepository->findOneBy(["id" => (int) $databaseCredentialId]);
             if (TestDatabase::test($databaseCredential)) {
                 $bus->dispatch(new DatabaseBackupNotification((string) $databaseCredentialId));
-                return $this->redirectToRoute('app_database_backup_file_index', [], Response::HTTP_SEE_OTHER);
+                $this->addFlash('success', 'Database backup initiated for ' . $databaseCredential->getName());
+                return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);
             }
             $this->addFlash('error', 'Database connection failed to ' . $databaseCredential->getName());
             return $this->redirectToRoute('app_database_credential_index', [], Response::HTTP_SEE_OTHER);

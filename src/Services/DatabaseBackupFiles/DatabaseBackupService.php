@@ -19,6 +19,8 @@ class DatabaseBackupService
 
     private $container;
 
+    private DatabaseBackupFile $databaseBackupFile;
+
     public function __construct(
         private DatabaseCredentialRepository $databaseCredentialRepository,
         private EntityManagerInterface $entityManager,
@@ -50,6 +52,9 @@ class DatabaseBackupService
         $backupScriptContent = shell_exec($shellCommand);
         $this->saveToFileSystem($fileName, $backupScriptContent);
         $this->writeEntryDatabaseBackup($databaseId, $fileName);
+        $databaseCredential->addDatabaseBackupFile($this->databaseBackupFile);
+        $this->entityManager->persist($databaseCredential);
+        $this->entityManager->flush();
 
         if ($this->parameterBag->get("filesystem_handler") === "s3") {
             $this->container
@@ -73,10 +78,10 @@ class DatabaseBackupService
 
     private function writeEntryDatabaseBackup(int $databaseId, string $fileName)
     {
-        $databaseBackupFile = (new DatabaseBackupFile())
+        $this->databaseBackupFile = (new DatabaseBackupFile())
             ->setDate(new DateTime())
             ->setFileName($fileName);
-        $this->entityManager->persist($databaseBackupFile);
+        $this->entityManager->persist($this->databaseBackupFile);
         $this->entityManager->flush();
     }
 

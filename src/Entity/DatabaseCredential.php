@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\DatabaseCredentialRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 
@@ -37,6 +39,17 @@ class DatabaseCredential
 
     #[ORM\ManyToOne(inversedBy: 'databaseCredentials')]
     private ?Environment $environment = null;
+
+    /**
+     * @var Collection<int, DatabaseBackupFile>
+     */
+    #[ORM\OneToMany(targetEntity: DatabaseBackupFile::class, mappedBy: 'databaseCredential')]
+    private Collection $databaseBackupFiles;
+
+    public function __construct()
+    {
+        $this->databaseBackupFiles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -128,6 +141,36 @@ class DatabaseCredential
     public function setEnvironment(?Environment $environment): static
     {
         $this->environment = $environment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DatabaseBackupFile>
+     */
+    public function getDatabaseBackupFiles(): Collection
+    {
+        return $this->databaseBackupFiles;
+    }
+
+    public function addDatabaseBackupFile(DatabaseBackupFile $databaseBackupFile): static
+    {
+        if (!$this->databaseBackupFiles->contains($databaseBackupFile)) {
+            $this->databaseBackupFiles->add($databaseBackupFile);
+            $databaseBackupFile->setDatabaseCredential($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDatabaseBackupFile(DatabaseBackupFile $databaseBackupFile): static
+    {
+        if ($this->databaseBackupFiles->removeElement($databaseBackupFile)) {
+            // set the owning side to null (unless already changed)
+            if ($databaseBackupFile->getDatabaseCredential() === $this) {
+                $databaseBackupFile->setDatabaseCredential(null);
+            }
+        }
 
         return $this;
     }

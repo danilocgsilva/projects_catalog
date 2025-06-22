@@ -22,6 +22,9 @@ class DatabaseBackupFile
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'databaseBackupFiles')]
+    private ?DatabaseCredential $databaseCredential = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,6 +50,18 @@ class DatabaseBackupFile
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getDatabaseCredential(): ?DatabaseCredential
+    {
+        return $this->databaseCredential;
+    }
+
+    public function setDatabaseCredential(?DatabaseCredential $databaseCredential): static
+    {
+        $this->databaseCredential = $databaseCredential;
 
         return $this;
     }
