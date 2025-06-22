@@ -21,10 +21,27 @@ use App\Services\TestDatabase;
 final class DatabaseBackupFileController extends AbstractController
 {
     #[Route(name: 'app_database_backup_file_index', methods: ['GET'])]
-    public function index(DatabaseBackupFileRepository $databaseBackupFileRepository): Response
+    public function index(
+        DatabaseBackupFileRepository $databaseBackupFileRepository,
+        Request $request,
+        DatabaseCredentialRepository $databaseCredentialRepository
+    ): Response
     {
+        $databaseBackupFiles = null;
+        $databaseCredentialName = null;
+        if ($request->get('database_credential_id')) {
+            $databaseCredentialId = (int) $request->get('database_credential_id');
+            $databaseBackupFiles = $databaseBackupFileRepository->findBy(['databaseCredential' => $databaseCredentialId]);
+            $databaseCredentialName = $databaseCredentialRepository
+                ->findOneBy(['id' => $databaseCredentialId])
+                ?->getName();
+        } else {
+            $databaseBackupFiles = $databaseBackupFileRepository->findAll();
+        }
+
         return $this->render('database_backup_file/index.html.twig', [
-            'database_backup_files' => $databaseBackupFileRepository->findAll(),
+            'database_backup_files' => $databaseBackupFiles,
+            'databaseCredentialName' => $databaseCredentialName,
         ]);
     }
 

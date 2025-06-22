@@ -6,7 +6,11 @@
 
 {% block body %}
     <h1>
-        DatabaseBackupFile index
+        {% if app.request.query.get('database_credential_id') and databaseCredentialName %}
+            Database backup files for {{ databaseCredentialName }}
+        {% else %}
+            Database backup files index
+        {% endif %}
     </h1>
 
     <table class="table">
