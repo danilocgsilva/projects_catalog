@@ -6,6 +6,8 @@ Manages your projects
 
 This project ships the docker environment receipt. Look to the `docker` folder to check the environment receipt. Also there you can start the environment wirh the command `docker compose up -d --build`.
 
+After that, you need to start the server. For this, I have the `start_server.sh` that can be executed from the host machine.
+
 ## Project Entities
 
 * Environment: Where the projects can exists. Example: computer A and computer B.
