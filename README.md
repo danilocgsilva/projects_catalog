@@ -2,6 +2,10 @@
 
 Manages your projects
 
+## Running project
+
+This project ships the docker environment receipt. Look to the `docker` folder to check the environment receipt. Also there you can start the environment wirh the command `docker compose up -d --build`.
+
 ## Project Entities
 
 * Environment: Where the projects can exists. Example: computer A and computer B.
@@ -27,7 +31,7 @@ composer install
 
 In the project root you can find the `start_docker.sh` and `start_server.sh`. This scritps are shortcuts to start the development environment. First, just run `start_docker.sh` and await start the environment. Then, run `start_server.sh`. This serves the application in the port 8002.
 
-## WARNING about data encryption
+## WARNING about data encryption (storing password)
 
 The application holds information from password for database (an pontentially other sets of data as well in the future). It is important no know that this information is encrypted in the database, and that the package responsible for this is the `doctrineencryptbundle/doctrine-encrypt-bundle`. Note that if the application needs to work in different environments, special care must be taken on this subject. May you should decrypt the table fields before transfering data between environments (the package documentation gives enough information on this), or may need to manage the encryption key accordingly.
 
