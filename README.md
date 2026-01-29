@@ -1,10 +1,10 @@
 # Projects Catalog
 
-Manages your projects
+Manages your projects and databases.
 
 ## Running project
 
-This project ships the docker environment receipt. Look to the `docker` folder to check the environment receipt. Also there you can start the environment with the command `docker compose up -d --build`.
+This project ships the docker environment receipt. You can start the environment with the command `docker compose up -d --build`.
 
 If you are running by the first time, you need to enter in the container, create the .env files and and run composer install.
 

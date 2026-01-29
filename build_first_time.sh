@@ -1,0 +1,22 @@
+#!/bin/bash
+
+docker compose up -d --build
+
+docker exec -i projects_catalog_dev_db bash <<EOF
+echo [client] >> /root/.my.cnf
+echo password=projectscatalogstrongpassword >> /root/.my.cnf
+EOF
+
+docker exec -i projects_catalog_dev_db bash <<EOF
+mysql -e "CREATE DATABASE IF NOT EXISTS projects_catalog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+EOF
+
+docker exec -i projects_catalog_dev bash <<EOF
+cp .env.sample .env
+sed -i 's/<USER>/root/g' .env
+sed -i 's/<PASSWORD>/projectscatalogstrongpassword/g' .env
+sed -i 's/<DNS>/projects_catalog_dev/g' .env
+sed -i 's/<PORT>/3306/g' .env
+sed -i 's/<DATABASENAME>/projects_catalog/g' .env
+composer install
+EOF

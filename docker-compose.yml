@@ -1,10 +1,10 @@
 services:
   projects_catalog_dev:
     build:
-      context: .
+      context: docker_configs
     container_name: projects_catalog_dev
     volumes:
-      - './../:/var/www'
+      - './app/:/var/www'
       - './.ssh/:/root/.ssh'
       - './var/database_backups/:/var/www/html/var/database_backups/'
       - '/var/www/docker'
