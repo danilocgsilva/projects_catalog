@@ -1,0 +1,15 @@
+body {
+    background-color: #aee;
+}
+
+#menu a {
+    padding: 10px;
+}
+
+.main-section {
+    padding: 20px;
+}
+
+table td {
+    vertical-align: middle;
+}

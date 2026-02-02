@@ -2,31 +2,31 @@ docker/.ssh/
 .env
 
 ###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/public/build/
-/var/
-/vendor/
+/app/.env.local
+/app/.env.local.php
+/app/.env.*.local
+/app/config/secrets/prod/prod.decrypt.private.php
+/app/public/bundles/
+/app/public/build/
+/app/var/
+/app/vendor/
 ###< symfony/framework-bundle ###
 
 ###> symfony/asset-mapper ###
-/public/assets/
-/assets/vendor/
+/app/public/assets/
+/app/assets/vendor/
 ###< symfony/asset-mapper ###
 project/node_modules/
-.env.dev
-config/secrets/dev/dev.decrypt.private.php
-node_modules/
+/app/.env.dev
+/app/config/secrets/dev/dev.decrypt.private.php
+/app/node_modules/
 
 ###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
+/app/.phpunit.result.cache
+/app/phpunit.xml
 ###< symfony/phpunit-bridge ###
 
 ###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
+/app/phpunit.xml
+/app.phpunit.result.cache
 ###< phpunit/phpunit ###

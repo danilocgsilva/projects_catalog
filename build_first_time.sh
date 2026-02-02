@@ -1,6 +1,11 @@
 #!/bin/bash
 
+set -e
+
 docker compose up -d --build
+
+echo Awaiting 20 seconds to startup the database...
+sleep 20
 
 docker exec -i projects_catalog_dev_db bash <<EOF
 echo [client] >> /root/.my.cnf
@@ -15,8 +20,11 @@ docker exec -i projects_catalog_dev bash <<EOF
 cp .env.sample .env
 sed -i 's/<USER>/root/g' .env
 sed -i 's/<PASSWORD>/projectscatalogstrongpassword/g' .env
-sed -i 's/<DNS>/projects_catalog_dev/g' .env
+sed -i 's/<DNS>/projects_catalog_dev_db/g' .env
 sed -i 's/<PORT>/3306/g' .env
 sed -i 's/<DATABASENAME>/projects_catalog/g' .env
 composer install
+php bin/console --no-interaction doctrine:migrations:migrate
 EOF
+
+
