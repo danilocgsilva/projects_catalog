@@ -27,4 +27,5 @@ composer install
 php bin/console --no-interaction doctrine:migrations:migrate
 EOF
 
+echo The build is ready. Don't need to run it again. Now, you can run inside the container "symfony server:start --port=8002 --allow-all-ip". Just ensure that the container is up. We have a script just to make it start: "start_server.sh"
 
