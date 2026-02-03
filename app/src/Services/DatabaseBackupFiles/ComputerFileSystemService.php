@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Services\DatabaseBackupFiles;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ComputerFileSystemService implements DatabaseBackupFileFileSystemInterface
 {
     private const BASE_PATH = __DIR__ . "/../../var/database_backups/";
 
-    public function __construct(private Filesystem $fs)
+    public function __construct(private Filesystem $fs, private ParameterBagInterface $params)
     {
     }
     
@@ -19,9 +20,9 @@ class ComputerFileSystemService implements DatabaseBackupFileFileSystemInterface
         return $this->fs->exists($this->getFileSystemAddressPath($path));
     }
 
-    public function getFileSystemAddressPath(string $path): string
+    public function getFileSystemAddressPath(string $path = ""): string
     {
-        return self::BASE_PATH . $path;
+        return $this->params->get('kernel.project_dir') . '/var/database_backups/' . $path;
     }
 
     public function write(string $fileName, string $content): void

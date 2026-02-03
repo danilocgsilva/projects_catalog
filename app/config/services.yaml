@@ -31,6 +31,8 @@ services:
     App\Services\ComputerFileSystemService:
         autowire: true
         autoconfigure: true
+        arguments:
+            $fs: '@Symfony\Component\Filesystem\Filesystem'
 
     App\Services\DatabaseBackupFiles\BringToLocal:
         autowire: true

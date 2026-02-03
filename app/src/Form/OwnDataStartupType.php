@@ -13,7 +13,7 @@ class OwnDataStartupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ownDataStartup', FileType::class, [
+            ->add('own_data_startup', FileType::class, [
                 'label' => 'Get the sql database script',
                 'constraints' => [
                     new File([
@@ -27,7 +27,7 @@ class OwnDataStartupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            
         ]);
     }
 }

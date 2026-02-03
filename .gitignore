@@ -30,3 +30,4 @@ project/node_modules/
 /app/phpunit.xml
 /app.phpunit.result.cache
 ###< phpunit/phpunit ###
+var/cache/*

@@ -21,8 +21,9 @@ class FileSystemFactory
     public function get(): DatabaseBackupFileFileSystemInterface
     {
         return match ($this->filesystemHandler) {
-            's3' => $this->container->get(S3FileSystemService::class),
-            'local' => new ComputerFileSystemService(new Filesystem()),
+            's3' => $this->container->get(id: S3FileSystemService::class),
+            // 'local' => new ComputerFileSystemService(new Filesystem()),
+            'local' => $this->container->get(ComputerFileSystemService::class),
             default => throw new InvalidArgumentException('Invalid filesystem handler'),
         };
     }
