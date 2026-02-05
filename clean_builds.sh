@@ -17,3 +17,5 @@ else
 	echo "app/.env does not exists"
 fi
 
+docker exec -it projects_catalog_dev_db mysql -uroot -e "DROP DATABASE IF EXISTS projects_catalog;"
+

@@ -9,9 +9,11 @@ use App\Entity\DatabaseBackupFile;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use App\Services\DatabaseBackupFiles\S3FileSystemService;
+use App\Services\DatabaseBackupFiles\{S3FileSystemService, ComputerFileSystemService};
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DatabaseBackupService
 {
@@ -26,14 +28,39 @@ class DatabaseBackupService
         private EntityManagerInterface $entityManager,
         private KernelInterface $kernel,
         private ParameterBagInterface $parameterBag,
-        private Filesystem $localFilesystem
+        private Filesystem $localFilesystem,
+        private ManagerRegistry $managerRegistry
     ) {
         $this->container = $this->kernel
             ->getContainer();
         $this->projectDir = $this->kernel
             ->getProjectDir();
     }
-    
+
+    public function restoreOwnDatabase(UploadedFile $uploadedFile)
+    {
+        $computerFileSystem = $this->container->get(ComputerFileSystemService::class);
+        $fileSystem = $this->container->get(Filesystem::class);
+
+        $newFilename = sprintf(
+            '%s_%s.%s',
+            pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME),
+            uniqid(),
+            $uploadedFile->getClientOriginalExtension(),
+        );
+
+        $uploadedFile->move(
+            $absolutePath = $computerFileSystem->getFileSystemAddressPath(""),
+            $newFilename
+        );
+
+        $fullPathFileName = $absolutePath . $newFilename;
+
+        $restoreScript = $this->generateShellCommandOwnRestore($fullPathFileName);
+        shell_exec($restoreScript);
+        $fileSystem->remove($fullPathFileName);
+    }
+
     public function generateDatabaseBackup(int $databaseId)
     {
         /**
@@ -76,6 +103,23 @@ class DatabaseBackupService
         }
     }
 
+    private function generateShellCommandOwnRestore(string $filePath)
+    {
+        $stringBase = "mysql -u%s -p%s -h%s %s < %s";
+
+        $connection = $this->managerRegistry->getConnection();
+        $connectionParameter = $connection->getParams();
+
+        return sprintf(
+            $stringBase,
+            $connectionParameter['user'],
+            $connectionParameter['password'],
+            $connectionParameter['host'],
+            $connectionParameter['dbname'],
+            $filePath
+        );
+    }
+
     private function writeEntryDatabaseBackup(int $databaseId, string $fileName)
     {
         $this->databaseBackupFile = (new DatabaseBackupFile())
@@ -91,10 +135,9 @@ class DatabaseBackupService
         string $host,
         string $databaseName,
         string $port = "3306"
-    ): string
-    {
+    ): string {
         $baseFormat = "mysqldump%s%s%s%s%s";
-        
+
         return sprintf(
             $baseFormat,
             " -u{$databaseUser}",

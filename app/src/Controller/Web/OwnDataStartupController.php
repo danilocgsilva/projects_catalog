@@ -7,38 +7,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Form\OwnDataStartupType;
 use Symfony\Component\HttpFoundation\Request;
-use App\Services\DatabaseBackupFiles\ComputerFileSystemService;
-use Symfony\Component\Filesystem\Filesystem;
+use App\Services\DatabaseBackupFiles\{ComputerFileSystemService, DatabaseBackupService};
+use Exception;
 
 final class OwnDataStartupController extends AbstractController
 {
     #[Route('/own_data_startup', name: 'app_own_data_startup')]
-    public function index(Request $request, ComputerFileSystemService $computerFileSystem): Response
+    public function index(
+        Request $request, 
+        DatabaseBackupService $databaseBackupService
+    ): Response
     {
         $form = $this->createForm(OwnDataStartupType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form->get('own_data_startup')->getData();
-            
-            // Here you would handle the file
-            // - Move it to a directory
-            // - Save info to database
-            // - Process it, etc.
-            // Generate a unique filename
-            $fileName = uniqid() . '.' . $file->guessExtension();
+            try {
+                $databaseBackupService->restoreOwnDatabase($form->get('own_data_startup')->getData());
+                $this->addFlash('success', 'File uploaded successfully!');
+            } catch (Exception $e) {
+                $this->addFlash('error', 'Troubles in restoring own database');
+            }
 
-            // $computerFileSystem = new ComputerFileSystemService(new Filesystem());
-            
-            $file->move(
-                $computerFileSystem->getFileSystemAddressPath(""),
-                $fileName
-            );
-            
-            $this->addFlash('success', 'File uploaded successfully!');
-            
             return $this->redirectToRoute('app_own_data_startup');
         }
-
 
         return $this->render('own_data_startup/index.html.twig', [
             'form' => $form->createView(),
