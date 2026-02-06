@@ -31,3 +31,5 @@ project/node_modules/
 /app.phpunit.result.cache
 ###< phpunit/phpunit ###
 var/cache/*
+.env.dev.local
+.ssh/known_hosts
