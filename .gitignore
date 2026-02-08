@@ -33,3 +33,8 @@ project/node_modules/
 var/cache/*
 .env.dev.local
 .ssh/known_hosts
+/node_modules/
+/public/assets/
+/assets/vendor/
+/var/
+/vendor/
