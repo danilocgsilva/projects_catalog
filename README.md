@@ -6,6 +6,8 @@ Manages your projects and databases.
 
 This project ships the docker environment receipt. You can start the environment with the command `docker compose up -d --build`.
 
+**A CATCH FOR BUILDING**: Realize that in the docker build recipe in `docker-compose.yml`, there's a mounting folder from application `var` folder to the project root. This is done because it makes easier to have access to the database backups.
+
 If you are running by the first time, you need to enter in the container, create the .env files and and run composer install.
 
 After that, you need to start the server. For this, I have the `start_server.sh` that can be executed from the host machine.
