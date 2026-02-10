@@ -59,12 +59,19 @@
                 <td style="white-space: nowrap">
                     <a class="btn btn-primary" href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
                     <a class="btn btn-primary" href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>
-                    <form style="display: inline-block" method="POST" action="{{ path('app_database_backup_file_create_database_backup') }}">
+                    <form
+                        style="display: inline-block" 
+                        method="POST" 
+                        action="{{ path('app_database_backup_file_create_database_backup') }}"
+                    >
                         <input type="hidden" name="database_credential_id" value="{{ database_credential.id }}" />
                         <input type="hidden" name="token" value="{{ csrf_token('database-backup') }}" />
                         <input class="btn btn-primary" type="submit" value="Generate backup" />
                     </form>
                     <a class="btn btn-primary" href="{{ path('app_database_backup_file_index') }}?database_credential_id={{ database_credential.id }}">List backups files</a>
+                    <form style="display: inline-block">
+                        <input class="btn btn-primary" type="submit" value="Test" />
+                    </form>
                 </td>
             </tr>
         {% else %}

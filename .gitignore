@@ -38,3 +38,6 @@ var/cache/*
 /assets/vendor/
 /var/
 /vendor/
+.env.dev
+/app/src/var/*
+/config/secrets/*
