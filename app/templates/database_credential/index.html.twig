@@ -56,9 +56,16 @@
                 {% endif %}
                 </td>
 
+                {# control buttons cell #}
                 <td style="white-space: nowrap">
+
+                    {# show #}
                     <a class="btn btn-primary" href="{{ path('app_database_credential_show', {'id': database_credential.id}) }}">show</a>
+
+                    {# edit #}
                     <a class="btn btn-primary" href="{{ path('app_database_credential_edit', {'id': database_credential.id}) }}">edit</a>
+
+                    {# Generate backup #}
                     <form
                         style="display: inline-block" 
                         method="POST" 
@@ -68,7 +75,11 @@
                         <input type="hidden" name="token" value="{{ csrf_token('database-backup') }}" />
                         <input class="btn btn-primary" type="submit" value="Generate backup" />
                     </form>
+
+                    {# List backups files #}
                     <a class="btn btn-primary" href="{{ path('app_database_backup_file_index') }}?database_credential_id={{ database_credential.id }}">List backups files</a>
+
+                    {# Test database #}
                     <form style="display: inline-block">
                         <input class="btn btn-primary" type="submit" value="Test" />
                     </form>
